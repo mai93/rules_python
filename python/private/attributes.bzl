@@ -25,8 +25,6 @@ load(":py_internal.bzl", "py_internal")
 load(":reexports.bzl", "BuiltinPyInfo")
 load(":rule_builders.bzl", "ruleb")
 
-_PackageSpecificationInfo = getattr(py_internal, "PackageSpecificationInfo", None)
-
 # Due to how the common exec_properties attribute works, rules must add exec
 # groups even if they don't actually use them. This is due to two interactions:
 # 1. Rules give an error if users pass an unsupported exec group.
