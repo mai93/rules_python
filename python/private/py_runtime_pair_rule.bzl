@@ -17,7 +17,6 @@
 load("@bazel_skylib//rules:common_settings.bzl", "BuildSettingInfo")
 load("//python:py_runtime_info.bzl", "PyRuntimeInfo")
 load(":common_labels.bzl", "labels")
-load(":flags.bzl", "read_possibly_native_flag")
 load(":reexports.bzl", "BuiltinPyRuntimeInfo")
 
 def _py_runtime_pair_impl(ctx):
@@ -37,10 +36,9 @@ def _py_runtime_pair_impl(ctx):
     else:
         py3_runtime = None
 
-
     if py2_runtime != None:
         fail("Using Python 2 is not supported and disabled; see " +
-               "https://github.com/bazelbuild/bazel/issues/15684")
+             "https://github.com/bazelbuild/bazel/issues/15684")
 
     extra_kwargs = {}
     if ctx.attr._visible_for_testing[BuildSettingInfo].value:
