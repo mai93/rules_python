@@ -246,3 +246,16 @@ bool_flag(
     build_setting_default = True,
     visibility = ["//visibility:public"],
 )
+
+bool_flag(
+    name = "incompatible_default_to_explicit_init_py",
+    build_setting_default = False,
+    visibility = ["//visibility:public"],
+)
+
+string_flag(
+   name = "python_path",
+   build_setting_default = "python",
+   visibility = ["//visibility:public"],
+)
+
