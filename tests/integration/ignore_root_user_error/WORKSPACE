@@ -12,4 +12,3 @@ python_register_toolchains(
     ignore_root_user_error = True,
     python_version = "3.9",
 )
-

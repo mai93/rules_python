@@ -1138,7 +1138,7 @@ def _get_runtime_details(ctx, semantics):
     flag_interpreter_path = read_possibly_native_flag(ctx, "python_path")
     if not flag_interpreter_path.startswith("python") and not paths.is_absolute(flag_interpreter_path):
         fail("python_path must be an absolute path when it is set.")
-        
+
     toolchain_runtime, effective_runtime = _maybe_get_runtime_from_ctx(ctx)
     if not effective_runtime:
         # Clear these just in case
