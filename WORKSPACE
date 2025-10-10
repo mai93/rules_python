@@ -25,6 +25,10 @@ local_repository(
     path = ".",
 )
 
+load("//python:repositories.bzl", "py_repositories", "python_register_multi_toolchains")
+
+py_repositories()
+
 load("//:internal_dev_deps.bzl", "rules_python_internal_deps")
 
 rules_python_internal_deps()
@@ -69,9 +73,6 @@ load("//:internal_dev_setup.bzl", "rules_python_internal_setup")
 rules_python_internal_setup()
 
 load("@pythons_hub//:versions.bzl", "PYTHON_VERSIONS")
-load("//python:repositories.bzl", "py_repositories", "python_register_multi_toolchains")
-
-py_repositories()
 
 python_register_multi_toolchains(
     name = "python",
