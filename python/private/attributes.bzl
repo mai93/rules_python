@@ -181,10 +181,10 @@ COMMON_ATTRS = dicts.add(
     },
     # starlark flags attributes
     {
-        "_python_path": attr.label(default = "//python/config_settings:python_path"),
+        "_build_python_zip": attr.label(default = "//python/config_settings:build_python_zip"),
         "_default_to_explicit_init_py": attr.label(default = "//python/config_settings:incompatible_default_to_explicit_init_py"),
         "_python_import_all_repositories": attr.label(default = "//python/config_settings:experimental_python_import_all_repositories"),
-        "_build_python_zip": attr.label(default = "//python/config_settings:build_python_zip"),
+        "_python_path": attr.label(default = "//python/config_settings:python_path"),
     },
 )
 
