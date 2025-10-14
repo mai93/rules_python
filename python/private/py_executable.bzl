@@ -77,6 +77,13 @@ EXECUTABLE_ATTRS = dicts.add(
     AGNOSTIC_EXECUTABLE_ATTRS,
     PY_SRCS_ATTRS,
     IMPORTS_ATTRS,
+    # starlark flags attributes
+    {
+        "_build_python_zip_flag": attr.label(default = "//python/config_settings:build_python_zip"),
+        "_default_to_explicit_init_py_flag": attr.label(default = "//python/config_settings:incompatible_default_to_explicit_init_py"),
+        "_python_import_all_repositories_flag": attr.label(default = "//python/config_settings:experimental_python_import_all_repositories"),
+        "_python_path_flag": attr.label(default = "//python/config_settings:python_path"),
+    },
     {
         "interpreter_args": lambda: attrb.StringList(
             doc = """
