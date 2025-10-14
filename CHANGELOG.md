@@ -48,18 +48,18 @@ BEGIN_UNRELEASED_TEMPLATE
 END_UNRELEASED_TEMPLATE
 -->
 
-{#v0-0-0}
-## Unreleased
+{#v1-7-0}
+## [1.7.0] - 2025-10-11
 
-[0.0.0]: https://github.com/bazel-contrib/rules_python/releases/tag/0.0.0
+[1.7.0]: https://github.com/bazel-contrib/rules_python/releases/tag/1.7.0
 
-{#v0-0-0-removed}
+{#v1-7-0-removed}
 ### Removed
 * (core rules) Support for Bazel's long deprecated "extra actions" has been
   removed
   ([#3215](https://github.com/bazel-contrib/rules_python/issues/3215)).
 
-{#v0-0-0-changed}
+{#v1-7-0-changed}
 ### Changed
 * (deps) bumped rules_cc dependency to `0.1.5`.
 * (bootstrap) For {obj}`--bootstrap_impl=system_python`, `PYTHONPATH` is no
@@ -83,11 +83,14 @@ END_UNRELEASED_TEMPLATE
   vendoring the `requirements.bzl` file, please re-vendor so that downstream is unaffected
   when the APIs get removed. If you need to customize the way the dependencies get
   evaluated, see [our docs](/pypi/download.html#customizing-requires-dist-resolution) on customizing `Requires-Dist` resolution.
-* (toolchains) Added Python version 3.14.0.
+* (toolchains) Added Python versions 3.14.0, 3.13.8, 3.12.12, 3.11.14, 3.10.19, and 3.9.24
+  from the [20251010] release.
 * (deps) (bzlmod) Upgraded to `bazel-skylib` version
   [1.8.2](https://github.com/bazelbuild/bazel-skylib/releases/tag/1.8.2)
 
-{#v0-0-0-fixed}
+[20251010]: https://github.com/astral-sh/python-build-standalone/releases/tag/20251010
+
+{#v1-7-0-fixed}
 ### Fixed
 * (rules) The `PyInfo` constructor was setting the wrong value for
   `has_py3_only_sources` - this is now fixed.
@@ -101,14 +104,22 @@ END_UNRELEASED_TEMPLATE
 * (venvs) {obj}`--venvs_site_packages=yes` no longer errors when packages with
   overlapping files or directories are used together.
   ([#3204](https://github.com/bazel-contrib/rules_python/issues/3204)).
+* (venvs) {obj}`--venvs_site_packages=yes` works for packages that dynamically
+  link to shared libraries
+  ([#3228](https://github.com/bazel-contrib/rules_python/issues/3228)).
+* (venvs) {obj}`--venvs_site_packages=yes` includes `pth` files at the root of the
+  site-packages folder
+  ([#3339](https://github.com/bazel-contrib/rules_python/issues/3339)).
 * (uv) {obj}`//python/uv:lock.bzl%lock` now works with a local platform
   runtime.
 * (toolchains) WORKSPACE builds now correctly register musl and freethreaded
   variants. Setting {obj}`--py_linux_libc=musl` and `--py_freethreaded=yes` now
   activate them, respectively.
   ([#3262](https://github.com/bazel-contrib/rules_python/issues/3262)).
+* (rules) {obj}`py_console_script_binary` is now compatible with symbolic macros
+  ([#3195](https://github.com/bazel-contrib/rules_python/pull/3195)).
 
-{#v0-0-0-added}
+{#v1-7-0-added}
 ### Added
 * (runfiles) The Python runfiles library now supports Bazel's
   `--incompatible_compact_repo_mapping_manifest` flag.
