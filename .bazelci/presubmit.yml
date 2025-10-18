@@ -18,18 +18,19 @@ buildifier:
   # Use a specific version to avoid skew issues when new versions are released.
   version: 6.1.0
   warnings: "all"
-.bazel_7_cxx_17_config: &bazel_7_cxx_17_config
+.bazel_7_cxx_17_flags: &bazel_7_cxx_17_flags
   # recent protobuf and abseil-cpp requires C++17 which is not used by default in Bazel 7
-  - "--cxxopt=-std=c++17"
-  - "--host_cxxopt=-std=c++17"
+  build_flags:
+    - "--cxxopt=-std=c++17"
+    - "--host_cxxopt=-std=c++17"
+  test_flags:
+    - "--cxxopt=-std=c++17"
+    - "--host_cxxopt=-std=c++17"
 # NOTE: Minimum supported version is 7.x
 .minimum_supported_version: &minimum_supported_version
   # For testing minimum supported version.
   # NOTE: Keep in sync with //:version.bzl
-  build_flags:
-    <<: *bazel_7_cxx_17_config
-  test_flags:
-    <<: *bazel_7_cxx_17_config
+  <<: *bazel_7_cxx_17_flags
   bazel: 7.x
   skip_in_bazel_downstream_pipeline: "Bazel 7 required"
 .reusable_config: &reusable_config
@@ -57,34 +58,46 @@ buildifier:
   build_flags:
     - "--keep_going"
     - "--build_tag_filters=-integration-test"
-    <<: *bazel_7_cxx_17_config
+    # recent protobuf and abseil-cpp requires C++17 which is not used by default in Bazel 7
+    - "--cxxopt=-std=c++17"
+    - "--host_cxxopt=-std=c++17"
   test_targets:
     - "--"
     - "..."
   test_flags:
     - "--test_tag_filters=-integration-test"
-    <<: *bazel_7_cxx_17_config
+    # recent protobuf and abseil-cpp requires C++17 which is not used by default in Bazel 7
+    - "--cxxopt=-std=c++17"
+    - "--host_cxxopt=-std=c++17"
 .common_workspace_flags_min_bazel: &common_workspace_flags_min_bazel
   build_flags:
     - "--noenable_bzlmod"
     - "--build_tag_filters=-integration-test"
-    <<: *bazel_7_cxx_17_config
+    # recent protobuf and abseil-cpp requires C++17 which is not used by default in Bazel 7
+    - "--cxxopt=-std=c++17"
+    - "--host_cxxopt=-std=c++17"
   test_flags:
     - "--noenable_bzlmod"
     - "--test_tag_filters=-integration-test"
-    <<: *bazel_7_cxx_17_config
+    # recent protobuf and abseil-cpp requires C++17 which is not used by default in Bazel 7
+    - "--cxxopt=-std=c++17"
+    - "--host_cxxopt=-std=c++17"
 .common_workspace_flags: &common_workspace_flags
   skip_in_bazel_downstream_pipeline: "Bazel 9 doesn't support workspace"
   test_flags:
     - "--noenable_bzlmod"
     - "--enable_workspace"
     - "--test_tag_filters=-integration-test"
-    <<: *bazel_7_cxx_17_config
+    # recent protobuf and abseil-cpp requires C++17 which is not used by default in Bazel 7
+    - "--cxxopt=-std=c++17"
+    - "--host_cxxopt=-std=c++17"
   build_flags:
     - "--noenable_bzlmod"
     - "--enable_workspace"
     - "--build_tag_filters=-integration-test"
-    <<: *bazel_7_cxx_17_config
+    # recent protobuf and abseil-cpp requires C++17 which is not used by default in Bazel 7
+    - "--cxxopt=-std=c++17"
+    - "--host_cxxopt=-std=c++17"
   bazel: 7.x
 # NOTE: The Mac and Windows bazelinbazel jobs override parts of this config.
 .common_bazelinbazel_config: &common_bazelinbazel_config
@@ -254,7 +267,8 @@ tasks:
     test_flags:
       - "--test_tag_filters=-integration-test,-acceptance-test"
       - "--extra_toolchains=@buildkite_config//config:cc-toolchain"
-      <<: *bazel_7_cxx_17_config
+      - "--cxxopt=-std=c++17"
+      - "--host_cxxopt=-std=c++17"
   integration_test_build_file_generation_ubuntu_minimum_supported_workspace:
     <<: *minimum_supported_version
     <<: *reusable_build_test_all
@@ -298,14 +312,11 @@ tasks:
   integration_test_bzlmod_ubuntu:
     <<: *reusable_build_test_all
     <<: *coverage_targets_example_bzlmod
+    <<: *bazel_7_cxx_17_flags
     name: "examples/bzlmod: Ubuntu"
     working_directory: examples/bzlmod
     platform: ubuntu2204
     bazel: 7.x
-    build_flags:
-      <<: *bazel_7_cxx_17_config
-    test_flags:
-      <<: *bazel_7_cxx_17_config
   integration_test_bzlmod_ubuntu_upcoming:
     <<: *reusable_build_test_all
     <<: *coverage_targets_example_bzlmod
@@ -316,14 +327,11 @@ tasks:
   integration_test_bzlmod_debian:
     <<: *reusable_build_test_all
     <<: *coverage_targets_example_bzlmod
+    <<: *bazel_7_cxx_17_flags
     name: "examples/bzlmod: Debian"
     working_directory: examples/bzlmod
     platform: debian11
     bazel: 7.x
-    build_flags:
-      <<: *bazel_7_cxx_17_config
-    test_flags:
-      <<: *bazel_7_cxx_17_config
   integration_test_bzlmod_ubuntu_vendor:
     <<: *reusable_build_test_all
     name: "examples/bzlmod: bazel vendor"
@@ -336,14 +344,11 @@ tasks:
   integration_test_bzlmod_macos:
     <<: *reusable_build_test_all
     <<: *coverage_targets_example_bzlmod
+    <<: *bazel_7_cxx_17_flags
     name: "examples/bzlmod: macOS"
     working_directory: examples/bzlmod
     platform: macos
     bazel: 7.x
-    build_flags:
-      <<: *bazel_7_cxx_17_config
-    test_flags:
-      <<: *bazel_7_cxx_17_config
   integration_test_bzlmod_macos_upcoming:
     <<: *reusable_build_test_all
     <<: *coverage_targets_example_bzlmod
@@ -353,15 +358,12 @@ tasks:
     bazel: last_rc
   integration_test_bzlmod_windows:
     <<: *reusable_build_test_all
+    <<: *bazel_7_cxx_17_flags
     # coverage is not supported on Windows
     name: "examples/bzlmod: Windows"
     working_directory: examples/bzlmod
     platform: windows
     bazel: 7.x
-    build_flags:
-      <<: *bazel_7_cxx_17_config
-    test_flags:
-      <<: *bazel_7_cxx_17_config
   integration_test_bzlmod_windows_upcoming:
     <<: *reusable_build_test_all
     # coverage is not supported on Windows
